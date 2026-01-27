@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Oyun Öneri Sistemi</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; }
+    .row { margin-bottom: 14px; }
+    .box { position: relative; width: 520px; max-width: 100%; }
+    input, select { width: 100%; padding: 10px; font-size: 14px; }
+
+    .dropdown {
+      position: absolute; top: 42px; left: 0; right: 0;
+      border: 1px solid #ddd; background: #fff;
+      max-height: 240px; overflow-y: auto; z-index: 10;
+      display: none;
+    }
+    .item { padding: 8px 10px; cursor: pointer; border-bottom: 1px solid #f2f2f2; }
+    .item:hover { background: #f7f7f7; }
+
+    .chips { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+    .chip {
+      background: #eef; padding: 6px 10px; border-radius: 16px;
+      display: inline-flex; gap: 8px; align-items: center;
+    }
+    .chip button { border: none; background: transparent; cursor: pointer; font-weight: bold; }
+
+    button.main { padding: 10px 14px; font-size: 14px; cursor: pointer; width: 100%; }
+
+    .muted { color: #666; font-size: 13px; }
+
+    .section { margin-top: 18px; }
+    .card {
+      border: 1px solid #ddd; border-radius: 10px;
+      padding: 12px; margin-top: 10px;
+    }
+
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    th, td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 14px; }
+    th { background: #f7f7f7; }
+
+    .status {
+      padding: 10px; border-radius: 8px; margin-top: 10px;
+      border: 1px solid #ddd;
+      background: #fafafa;
+      font-size: 14px;
+    }
+    .status.error { border-color: #ffb3b3; background: #fff4f4; color: #a40000; }
+    .status.ok { border-color: #bde5bd; background: #f4fff4; color: #0a5c0a; }
+
+    @media (max-width: 768px) {
+      body { margin: 16px; }
+      input, select, button.main { font-size: 16px; padding: 12px; }
+      th, td { font-size: 13px; }
+    }
+  </style>
+</head>
+
+<body>
+  <h2>🎮 Oyun Öneri Sistemi</h2>
+  <p class="muted">
+    3 oyun seç, model seç, önerileri gör.
+    (Rerank: Metacritic + Recommendations)
+  </p>
+
+  <div class="row">
+    <label class="muted">Model Seçimi</label>
+    <select id="mode">
+      <option value="kmeans">K-Means (İçerik Kümesi + Rerank)</option>
+      <option value="kmeans_cosine">K-Means + Cosine (Cosine + Rerank)</option>
+      <option value="popular">Popülerlik (Baseline)</option>
+    </select>
+  </div>
+
+  <div class="row box">
+    <input id="search" placeholder="Oyun ara (en az 3 harf)..." autocomplete="off" />
+    <div id="dropdown" class="dropdown"></div>
+    <div id="chips" class="chips"></div>
+  </div>
+
+  <div class="row">
+    <button class="main" id="recommendBtn" disabled>Öner</button>
+    <span class="muted" id="hint">3 oyun seçince aktif olur.</span>
+  </div>
+
+  <div id="status" class="status">Henüz istek atılmadı.</div>
+
+  <div class="section">
+    <h3>Selected by user games</h3>
+    <div class="card" id="selectedCard">
+      <div id="selectedTableWrap"></div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h3>Recommendations</h3>
+    <div class="card" id="recsCard">
+      <div id="recsTableWrap"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
