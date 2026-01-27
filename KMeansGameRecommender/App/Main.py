@@ -162,7 +162,7 @@ def recommend_kmeans_cosine(selected_games, top_n=5, candidate_n=200):
     if candidates.empty:
         return pd.DataFrame(), matched
 
-    # Çok büyük cluster olursa hesap ağırlaşmasın diye örnekle
+    # Çok büyük cluster olursa hesaplama süresi uzamaması için örnekledik
     candidates = candidates.sample(n=min(candidate_n, len(candidates)), random_state=RANDOM_STATE)
 
     # Cosine similarity hesapla
@@ -175,7 +175,7 @@ def recommend_kmeans_cosine(selected_games, top_n=5, candidate_n=200):
     candidates = candidates.copy()
     candidates["cosine_similarity"] = sims
 
-    # İstersen sadece cosine ile sırala:
+    # Sadece cosinuse görede sıralayabiliriz
     # top = candidates.sort_values("cosine_similarity", ascending=False).head(top_n)
 
     # Daha iyi pratik sonuç için: cosine ana sinyal + kalite/popülerlik küçük katkı
@@ -184,11 +184,11 @@ def recommend_kmeans_cosine(selected_games, top_n=5, candidate_n=200):
 
     rec_norm = (rec - rec.min()) / (rec.max() - rec.min() + 1e-9)
     meta_norm = (meta - meta.min()) / (meta.max() - meta.min() + 1e-9)
-
+#reccomendation fazladan ağırlık verdim çünkü kullanıcı faktörü daha önemli ve metacrit skorlar başka olaylardan etkilenebiliyor
     candidates["final_score"] = (
-        0.80 * candidates["cosine_similarity"] +
+        0.70 * candidates["cosine_similarity"] +
         0.10 * meta_norm +
-        0.10 * rec_norm
+        0.20 * rec_norm
     )
 
     top = candidates.sort_values("final_score", ascending=False).head(top_n)
@@ -313,3 +313,4 @@ def recommend():
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
+
