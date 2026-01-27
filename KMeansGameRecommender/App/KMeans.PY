@@ -25,11 +25,10 @@ best_k = 20
 # Silhouette hesaplaması büyük veride pahalı olabilir → O(n2) 
 SAMPLE_FOR_SILHOUETTE = 5000 #ortalama
 
-# Nihai aday havuzu vs. bu dosyada sadece eğitim var; test fonksiyonu aşağıda
 
 
 # =========================================================
-# 1️⃣ VERİ YÜKLEME (JSON)
+# 1️⃣ VERİ YÜKLEME 
 # =========================================================
 with open("../Data/games.json", "r", encoding="utf-8") as f:
     data = json.load(f)
@@ -104,7 +103,7 @@ X = np.hstack([
     qp_scaled
 ])
 
-# NaN/inf varsa temizle
+# NaN/inf varsa temizliyoruz
 X = np.nan_to_num(X)
 
 print("Toplam oyun:", X.shape[0])
@@ -274,3 +273,4 @@ if __name__ == "__main__":
         print("Öneri bulunamadı.")
     else:
         print(recs[["Name", "Genres", "Metacritic score", "Recommendations", "final_score"]])
+
