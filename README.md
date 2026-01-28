@@ -33,13 +33,12 @@ Bu çalışmada:
 ## Kullanılan Teknolojiler
 
 Projeyi gerçekleyebiliceğimiz en uygun teknolojiler olarak bu çalışmada kullanılan kütüphaneler:
--Python
--Pandas, NumPy
--Scikit-learn
--Flask
--HTML, JavaScript
+- Python
+- Pandas, NumPy
+- Scikit-learn
+- Flask
+- HTML, JavaScript
 
----
 
 ##  Özellik Mühendisliği (Feature Engineering)
 
@@ -65,8 +64,8 @@ X = np.hstack([
     qp_scaled
 ])
 ```
-
-##Klasör Yapısı
+---
+## Klasör Yapısı
 ```
 
 ├── Data/
